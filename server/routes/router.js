@@ -3,6 +3,8 @@ const route = express.Router()
 
 const services = require('../services/render')
 const controller = require('../controller/controller')
+const store = require('../middleware/multer')
+
 
 /**
  *  @description Root Route
@@ -24,10 +26,13 @@ route.get('/update-user', services.update_user)
 
 
 // API
-route.post('/api/users', controller.create)
+route.post('/api/users', store.array('userPhoto',1), controller.create)
 route.get('/api/users', controller.find)
 route.put('/api/users/:id', controller.update)
 route.delete('/api/users/:id', controller.delete)
+
+//upload
+route.post('/api/uploadImage', store.array('userPhoto',1), controller.uploadImage)
 
 
 module.exports = route

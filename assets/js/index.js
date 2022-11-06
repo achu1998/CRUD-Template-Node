@@ -2,7 +2,13 @@ $("#add_user").submit(function(event){
     alert("Data Inserted Successfully!")
 })
 
+function loadFile(event){
+    var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+}
+
 $("#update_user").submit(function(event){
+    $("#userImageUpdate").submit()
     event.preventDefault()
 
     var unindexed_array = $(this).serializeArray()
@@ -18,11 +24,12 @@ $("#update_user").submit(function(event){
         "method" : "PUT",
         "data" : data
     }
-
-    $.ajax(request).done(function(response){
-        alert("Data Updated Successfully!")
-        window.location.href = location.origin
-    })
+    setTimeout(function(){
+        $.ajax(request).done(function(response){
+            alert("Data Updated Successfully!")
+            window.location.href = location.origin
+        })
+    },2000);
 
 })
 

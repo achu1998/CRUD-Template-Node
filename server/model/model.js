@@ -11,7 +11,19 @@ var schema = new mongoose.Schema({
         unique: true
     },
     gender : String,
-    status : String
+    status : String,
+    filename : {
+        type : String,
+        required: true
+    },
+    contentType : {
+        type: String,
+        required : true
+    },
+    imageBase64 : {
+        type : String,
+        required: true
+    }
 })
 
 const Userdb = mongoose.model('userdb', schema)

@@ -225,8 +225,27 @@ table{
     margin: .5em 0;
 }
 
+#upload .upload-user-image-btn{
+    width: 50%;
+    padding: .9em 1em;
+    background-color:#16db93; 
+    border: none;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: .2em;
+    margin: .5em 0;
+}
+
 #update_user .form-group .btn:hover,
 #add_user .form-group .btn:hover{
     background-color: var(--dark);
     color: var(--border);
+}
+
+.card-img-top{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
 }

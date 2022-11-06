@@ -1,6 +1,7 @@
 <% for(var i = 0; i < users.length; i++) { %>
     <tr>
         <td><%= i + 1 %></td>
+        <td><img src='data:<%= users[i].contentType %>;base64,<%= users[i].imageBase64 %>' class="card-img-top" class="img-fluid" alt="..."></td>    
         <td><%= users[i].name %></td>
         <td><%= users[i].email %></td>
         <td><%= users[i].gender %></td>

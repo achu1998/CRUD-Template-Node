@@ -16,11 +16,11 @@ exports.homeRoutes = (req, res) => {
 }
 
 exports.add_user = (req, res) =>{
-    res.render('add_user')
+    res.render('add_user', { siteUrl : process.env.RELEASE_ENV})
 }
 
 exports.update_user = (req, res) =>{
-    axios.get(process.env.RELEASE_ENV+'api/users', { params : { id : req.query.id }})
+    axios.get(process.env.RELEASE_ENV+'api/users', { params : { _id : req.query.id }})
         .then(function(userdata){
             res.render("update_user", { user : userdata.data, siteUrl : process.env.RELEASE_ENV})
         })

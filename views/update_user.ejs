@@ -16,6 +16,20 @@
         </div>
 
         <!-- add user form -->
+
+
+<form method="POST" action="/api/uploadImage" enctype="multipart/form-data" id="userImageUpdate">
+    <div class="new_user">
+        <div class="form-group" id="upload">
+            <label for="file" class="text-light" style="cursor: pointer; text-align: center;">Upload Image</label>
+            <br><p><img id="output" width="200" src='data:<%= user.contentType %>;base64,<%= user.imageBase64 %>'/></p>
+            <div class="col-10">
+                <input type="file" name="userPhoto" class="upload-user-image-btn" 
+                    onchange="loadFile(event)" id="userPhoto" />
+            </div>
+        </div> 
+    </div>
+</form>               
          <!-- form handling -->
  <form method="POST" id="update_user" site-url="<%= siteUrl %>">
     <div class="new_user">

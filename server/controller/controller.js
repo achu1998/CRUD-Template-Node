@@ -1,8 +1,17 @@
 var Userdb = require('../model/model')
+const fs = require('fs');
 
 // create and save new user
-exports.create = (req,res)=>{
+exports.create = (req,res, next)=>{
     // validate request
+    const files = req.files;
+
+    if(!files){
+        const error = new Error('Please choose files');
+        error.httpStatusCode = 400;
+        return next(error)
+    }
+    
     if(!req.body){
         res.status(400).send({ message : "Content can not be emtpy!"})
         return
@@ -15,6 +24,25 @@ exports.create = (req,res)=>{
         gender: req.body.gender,
         status : req.body.status
     })
+    
+    if(typeof files !== "undefined") {
+        let imgArray = files.map((file) => {
+            let img = fs.readFileSync(file.path)
+    
+            return encode_image = img.toString('base64')
+        })
+    
+        let result = imgArray.map((src, index) => {
+    
+            // create object to store data in the collection
+            user.filename = files[index].originalname,
+            user.contentType = files[index].mimetype,
+            user.imageBase64 = src
+
+        });
+
+    }
+
 
     // save user in the database
     user
@@ -69,9 +97,34 @@ exports.update = (req, res)=>{
             .status(400)
             .send({ message : "Data to update can not be empty"})
     }
+    let param = req.body
+    const files = global["files"]
 
+    if(typeof files !== "undefined") {
+        let imgArray = files.map((file) => {
+            let img = fs.readFileSync(file.path)
+    
+            return encode_image = img.toString('base64')
+        })
+    
+        let result = imgArray.map((src, index) => {
+    
+            // create object to store data in the collection
+            param["filename"] = files[index].originalname,
+            param["contentType"] = files[index].mimetype,
+            param["imageBase64"] = src
+
+        });
+        delete global["files"]
+    }
+    
     const id = req.params.id;
-    Userdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
+    Userdb.findByIdAndUpdate(id, param, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    })
         .then(data => {
             if(!data){
                 res.status(404).send({ message : `Cannot Update user with ${id}. Maybe user not found!`})
@@ -103,4 +156,14 @@ exports.delete = (req, res)=>{
                 message: "Could not delete User with id=" + id
             });
         });
+}
+
+exports.uploadImage = (req,res,next)=>{
+    const files = req.files;
+    if(!files){
+        const error = new Error('Please choose files');
+        error.httpStatusCode = 400;
+        return next(error)
+    }
+    global["files"] = files
 }
